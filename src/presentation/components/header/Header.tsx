@@ -1,8 +1,11 @@
-import React from "react";
-import { HeaderStyled } from "./Header.styles";
+import { HeaderStyled, LinkStyled } from "./Header.styles";
 
-const Header: React.FC = () => {
-  return <HeaderStyled><p>AAAA</p></HeaderStyled>;
-};
-
-export default Header;
+export default function Header() {
+  return (
+    <HeaderStyled>
+      <LinkStyled to={"/"}>Home</LinkStyled>
+      <LinkStyled to={"/cadastrar"}>Cadastrar</LinkStyled>
+      <LinkStyled to={"/listar"}>Listar</LinkStyled>
+    </HeaderStyled>
+  );
+}

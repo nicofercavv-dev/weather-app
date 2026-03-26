@@ -1,0 +1,26 @@
+name: CI/CD Render
+
+on:
+  push:
+    branches: [ master ] # Executa ao dar push na master
+  pull_request: 
+    branches: [ master ]
+
+jobs:
+  build-and-test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      
+      - name: Install Dependencies
+        run: npm install
+
+      # - name: Run Tests
+      #   run: npm test # O deploy só continua se os testes passarem!
+
+  deploy:
+    needs: build-and-test # Só roda se o job acima der certo
+    runs-on: ubuntu-latest
+    steps:
+      - name: Trigger Render Deploy
+        run: curl -X POST ${{ secrets.RENDER_DEPLOY_HOOK_URL }}

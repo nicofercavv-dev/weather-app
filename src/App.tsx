@@ -1,13 +1,17 @@
+import { Outlet } from "react-router";
 import "./App.css";
-import Header from "./presentation/components/header/header";
+import Footer from "./presentation/components/footer/Footer";
+import Header from "./presentation/components/header/Header";
 
 function App() {
   return (
-    <>
-      <section id="center">
-        <Header />
-      </section>
-    </>
+    <div className="template-container">
+      <Header />
+      <main data-testid="page-content-container">
+        <Outlet />
+      </main>
+      <Footer />
+    </div>
   );
 }
 
