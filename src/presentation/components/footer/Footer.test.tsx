@@ -5,5 +5,5 @@ import Footer from "./Footer";
 it("deve renderizar o título principal", () => {
   render(<Footer />);
   expect(screen.getByText(/make with love/i)).toBeInTheDocument();
-  expect(screen.getAllByAltText(/Logo da DB/i)).toBeInTheDocument();
+  expect(screen.getByAltText(/Logo da DB/i)).toBeInTheDocument();
 });
