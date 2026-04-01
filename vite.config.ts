@@ -1,6 +1,7 @@
 /// <reference types="vitest" />
 import { defineConfig } from "vitest/config";
 import react from "@vitejs/plugin-react";
+import path from "path";
 
 export default defineConfig({
   plugins: [react()],
@@ -10,9 +11,10 @@ export default defineConfig({
     setupFiles: "./src/setupTests.ts",
     css: true,
     coverage: {
-      provider: "v8",
+      provider: "istanbul",
       reporter: ["html", "text"],
-      reportsDirectory: "./coverage",
+      reportsDirectory: path.resolve(__dirname, "./coverage"),
+      reportOnFailure: true,
       clean: false,
       cleanOnRerun: true,
       thresholds: {

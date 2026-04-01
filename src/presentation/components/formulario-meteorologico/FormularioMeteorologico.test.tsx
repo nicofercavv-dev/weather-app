@@ -2,7 +2,7 @@ import { render, screen } from "@testing-library/react";
 import { it, expect } from "vitest";
 import FormularioMeterologico from "./FormularioMeterologico";
 
-it("deve renderizar o título principal", () => {
+it("deve renderizar formulário de cadastro", () => {
   render(
     <FormularioMeterologico
       onSubmit={() => null}
