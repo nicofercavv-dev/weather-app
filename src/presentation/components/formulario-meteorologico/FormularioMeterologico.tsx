@@ -130,8 +130,6 @@ function FormularioMeterologico({
                 value={value}
                 suffix="%"
                 decimalScale={0}
-                min={0}
-                max={100}
                 onValueChange={(values) => onChange(values.floatValue)}
               />
             )}
@@ -152,8 +150,6 @@ function FormularioMeterologico({
                 value={value}
                 suffix="%"
                 decimalScale={0}
-                min={0}
-                max={100}
                 onValueChange={(values) => onChange(values.floatValue)}
               />
             )}
@@ -186,7 +182,7 @@ function FormularioMeterologico({
         </label>
       </fieldset>
       <div className="actions">
-        <button className="cancelar">Cancelar</button>
+        <button type="button" className="cancelar">Cancelar</button>
         <button type="submit" disabled={isSubmitting}>
           {isSubmitting ? "Enviando..." : "Salvar"}
         </button>

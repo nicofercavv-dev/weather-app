@@ -2,7 +2,7 @@ name: CI/CD Render
 
 on:
   push:
-    branches: [ master ] # Executa ao dar push na master
+    branches: [ master ]
   pull_request: 
     branches: [ master ]
 
@@ -15,11 +15,11 @@ jobs:
       - name: Install Dependencies
         run: npm install
 
-      # - name: Run Tests
-      #   run: npm test # O deploy só continua se os testes passarem!
+      - name: Run Tests
+        run: npm test
 
   deploy:
-    needs: build-and-test # Só roda se o job acima der certo
+    needs: build-and-test
     runs-on: ubuntu-latest
     steps:
       - name: Trigger Render Deploy

@@ -10,35 +10,38 @@ export const FormStyled = styled.form`
     gap: 0.5rem;
     font-size: 1.5rem;
     font-weight: 600;
-    color: #ffffff;
+    color: ${(props) => props.theme.colors.text};
     width: fit-content;
   }
 
   input,
   select {
     outline: none;
-    border: 2px solid transparent;
+    border: 0.125rem solid transparent;
     transition: all 0.3s ease-in-out;
 
     &:focus {
-      border-color: #a389d4;
-      box-shadow: 0 0 8px rgba(163, 137, 212, 0.6);
+      border-color: ${(props) => props.theme.colors.purple50};
+      box-shadow: 0 0 0.5rem ${(props) => props.theme.colors.purple50Opacity60};
     }
 
     &:focus-visible {
       outline: none;
-      border-color: #fff;
+      border-color: ${(props) => props.theme.colors.white};
       box-shadow:
-        0 0 0 2px #4b2c82,
-        0 0 0 4px #a389d4;
+        0 0 0 0.125rem ${(props) => props.theme.colors.purple300},
+        0 0 0 0.25rem ${(props) => props.theme.colors.purple50};
     }
   }
 
   input {
     height: 3.5625rem;
-    background-image: linear-gradient(#957dcd, #523d7f);
+    background-image: linear-gradient(
+      ${(props) => props.theme.colors.purple100},
+      ${(props) => props.theme.colors.purple200}
+    );
     border-radius: 0.9375rem;
-    color: #ffffff;
+    color: ${(props) => props.theme.colors.text};
     font-size: 1.25rem;
     padding: 0 1.5rem;
   }
@@ -65,16 +68,19 @@ export const FormStyled = styled.form`
 
   select {
     height: 3.5625rem;
-    background-image: linear-gradient(#957dcd, #523d7f);
+    background-image: linear-gradient(
+      ${(props) => props.theme.colors.purple100},
+      ${(props) => props.theme.colors.purple200}
+    );
     border: none;
     border-radius: 0.9375rem;
-    color: #ffffff;
+    color: ${(props) => props.theme.colors.text};
     font-size: 1.25rem;
     padding: 0 1.5rem;
 
     option {
-      color: #FFFFFF;
-      background-color: #4b2c82;
+      color: ${(props) => props.theme.colors.text};
+      background-color: ${(props) => props.theme.colors.purple300};
     }
   }
 
@@ -95,7 +101,10 @@ export const FormStyled = styled.form`
     grid-template-columns: repeat(12, 1fr);
     justify-items: center;
     min-height: 24.75rem;
-    background-image: linear-gradient(#957dcd4a, #523d7f80);
+    background-image: linear-gradient(
+      ${(props) => props.theme.colors.purple100Opacity29},
+      ${(props) => props.theme.colors.purple200Opacity50}
+    );
     border-radius: 0.9375rem;
     box-sizing: border-box;
     padding: 4.375rem 0 3.125rem 0;
@@ -117,12 +126,15 @@ export const FormStyled = styled.form`
     button {
       height: 3.625rem;
       width: 17.125rem;
-      background-image: linear-gradient(#957dcd, #523d7f);
+      background-image: linear-gradient(
+        ${(props) => props.theme.colors.purple100},
+        ${(props) => props.theme.colors.purple200}
+      );
       border: none;
       border-radius: 6.25rem;
       font-size: 1.5rem;
       font-weight: 500;
-      color: #ffffff;
+      color: ${(props) => props.theme?.colors.text};
       cursor: pointer;
     }
 

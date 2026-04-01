@@ -1,17 +1,17 @@
 import { Outlet } from "react-router";
-import "./App.css";
 import Footer from "./presentation/components/footer/Footer";
 import Header from "./presentation/components/header/Header";
+import { PageContentContainer, TemplateContainer } from "./App.styles";
 
 function App() {
   return (
-    <div className="template-container">
+    <TemplateContainer>
       <Header />
-      <main data-testid="page-content-container">
+      <PageContentContainer data-testid="page-content-container">
         <Outlet />
-      </main>
+      </PageContentContainer>
       <Footer />
-    </div>
+    </TemplateContainer>
   );
 }
 

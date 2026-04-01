@@ -1,13 +1,17 @@
 import { render, screen } from "@testing-library/react";
-import { it, expect } from "vitest";
+import { expect, test } from "vitest";
 import App from "./App";
 import { MemoryRouter } from "react-router";
+import { ThemeProvider } from "styled-components";
+import { theme } from "./presentation/styles/theme";
 
-it("deve renderizar app", () => {
+test("deve renderizar app", () => {
   render(
-    <MemoryRouter>
-      <App />
-    </MemoryRouter>,
+    <ThemeProvider theme={theme}>
+      <MemoryRouter>
+        <App />
+      </MemoryRouter>
+    </ThemeProvider>,
   );
   expect(screen.getByTestId("page-content-container")).toBeInTheDocument();
 });

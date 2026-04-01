@@ -3,8 +3,8 @@ import styled from "styled-components";
 
 export const HeaderStyled = styled.header`
   background-image: linear-gradient(
-    rgba(149, 125, 205, 0.5),
-    rgba(82, 61, 127, 0.5)
+    ${(props) => props.theme.colors.purple100Opacity50},
+    ${(props) => props.theme.colors.purple200Opacity50}
   );
   height: 4.5rem;
   margin: 1.375rem 1.75rem;
@@ -17,7 +17,7 @@ export const HeaderStyled = styled.header`
 `;
 
 export const LinkStyled = styled(NavLink)`
-  color: #ffffff;
+  color: ${(props) => props.theme.colors.text};
   font-size: 2rem;
   font-weight: 600;
   text-decoration: none;
@@ -30,7 +30,7 @@ export const LinkStyled = styled(NavLink)`
     left: -5%;
     width: 110%;
     height: 0.125rem;
-    background-color: #ffffff;
+    background-color: ${(props) => props.theme.colors.white};
 
     transition: transform 0.2s ease-in-out;
     transform: scaleX(0);

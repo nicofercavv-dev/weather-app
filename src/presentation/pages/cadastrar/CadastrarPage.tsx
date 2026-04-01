@@ -41,26 +41,14 @@ export default function CadastrarPage() {
   });
 
   const onSubmit = (data: DadosMeteorologicos) => {
-    // TODO: Integrar chamada para cadastro no backend 
+    // TODO: Integrar chamada para cadastro no backend
     console.log("Form: ", data);
 
-    toast.success("Informações enviadas com sucesso", {
-      position: "top-right",
-      autoClose: 3000,
-      hideProgressBar: false,
-      pauseOnHover: false,
-      theme: "colored",
-    });
+    toast.success("Informações enviadas com sucesso");
   };
 
   const onError = () => {
-    toast.error("Existem campos inválidos no formulário", {
-      position: "top-right",
-      autoClose: 3000,
-      hideProgressBar: false,
-      pauseOnHover: false,
-      theme: "colored",
-    });
+    toast.error("Existem campos inválidos no formulário");
   };
 
   return (

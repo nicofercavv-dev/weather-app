@@ -2,8 +2,8 @@ import styled from "styled-components";
 
 export const FooterStyled = styled.footer`
   background-image: linear-gradient(
-    rgba(149, 125, 205, 0.5),
-    rgba(82, 61, 127, 0.5)
+    ${(props) => props.theme.colors.purple100Opacity50},
+    ${(props) => props.theme.colors.purple200Opacity50}
   );
   height: 4.5rem;
   margin: 1.375rem 1.75rem;
@@ -14,7 +14,7 @@ export const FooterStyled = styled.footer`
   gap: 0.625rem;
 
   p {
-    color: #ffffff;
+    color: ${(props) => props.theme.colors.text};
     font-weight: 400;
     font-size: 1.25rem;
   }

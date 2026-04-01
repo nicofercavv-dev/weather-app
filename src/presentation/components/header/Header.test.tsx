@@ -1,13 +1,17 @@
 import { render, screen } from "@testing-library/react";
-import { it, expect } from "vitest";
+import { expect, test } from "vitest";
 import Header from "./Header";
 import { MemoryRouter } from "react-router";
+import { ThemeProvider } from "styled-components";
+import { theme } from "../../styles/theme";
 
-it("deve renderizar o header", () => {
+test("deve renderizar o header", () => {
   render(
-    <MemoryRouter>
-      <Header />
-    </MemoryRouter>,
+    <ThemeProvider theme={theme}>
+      <MemoryRouter>
+        <Header />
+      </MemoryRouter>
+    </ThemeProvider>,
   );
   expect(screen.getByText(/Home/i)).toBeInTheDocument();
   expect(screen.getByText(/Cadastrar/i)).toBeInTheDocument();
