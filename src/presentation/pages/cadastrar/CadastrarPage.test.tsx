@@ -6,6 +6,7 @@ import userEvent from "@testing-library/user-event";
 import { toast } from "react-toastify";
 import { ThemeProvider } from "styled-components";
 import { theme } from "../../styles/theme";
+import { RegistrarDadosMeteorologicos } from "../../../data/usecase/registrar-dados-meteorologicos";
 
 vi.mock("react-toastify", () => ({
   toast: {
@@ -13,6 +14,16 @@ vi.mock("react-toastify", () => ({
     error: vi.fn(),
   },
 }));
+
+vi.mock("../../../data/usecase/registrar-dados-meteorologicos", () => {
+  const execute = vi.fn();
+
+  return {
+    RegistrarDadosMeteorologicos: class {
+      execute = execute;
+    },
+  };
+});
 
 const renderPage = () =>
   render(
@@ -46,20 +57,29 @@ test("deve disparar toast de erro quando a validação falhar", async () => {
 });
 
 test("deve disparar toast de sucesso quando o formulário for válido", async () => {
+  const useCaseInstance = new RegistrarDadosMeteorologicos({} as any);
+  vi.mocked(useCaseInstance.execute).mockResolvedValue(undefined);
+
   const user = userEvent.setup();
   renderPage();
 
-  await user.type(screen.getByLabelText(/Cidade/g), "São Paulo");
+  await user.type(screen.getByLabelText(/Cidade/), "São Paulo");
 
   fireEvent.change(screen.getByLabelText(/data/i), {
-    target: { value: "2024-05-20" },
+    target: { value: "2026-04-08" },
   });
 
   await user.selectOptions(screen.getByLabelText(/tempo dia/i), "SOL");
   await user.selectOptions(screen.getByLabelText(/tempo noite/i), "NUBLADO");
 
-  await user.type(screen.getByLabelText(/temperatura máxima/i), "30");
-  await user.type(screen.getByLabelText(/temperatura mínima/i), "15");
+  const inputMax = screen.getByLabelText(/temperatura máxima/i);
+  await user.clear(inputMax);
+  await user.type(inputMax, "30");
+
+  const inputMin = screen.getByLabelText(/temperatura mínima/i);
+  await user.clear(inputMin);
+  await user.type(inputMin, "15");
+
   await user.type(screen.getByLabelText(/precipitação/i), "10");
   await user.type(screen.getByLabelText(/umidade/i), "60");
   await user.type(screen.getByLabelText(/velocidade do vento/i), "12");
@@ -72,4 +92,45 @@ test("deve disparar toast de sucesso quando o formulário for válido", async ()
       "Informações enviadas com sucesso",
     );
   });
+});
+
+test("deve disparar toast de erro quando a chamada ao usecase falhar", async () => {
+  const consoleSpy = vi.spyOn(console, 'error').mockImplementation(() => {});
+  const useCaseInstance = new RegistrarDadosMeteorologicos({} as any);
+  vi.mocked(useCaseInstance.execute).mockRejectedValue(
+    new Error("Erro interno do servidor"),
+  );
+
+  const user = userEvent.setup();
+  renderPage();
+
+  await user.type(screen.getByLabelText(/Cidade/), "São Paulo");
+
+  fireEvent.change(screen.getByLabelText(/data/i), {
+    target: { value: "2026-04-08" },
+  });
+
+  await user.selectOptions(screen.getByLabelText(/tempo dia/i), "SOL");
+  await user.selectOptions(screen.getByLabelText(/tempo noite/i), "NUBLADO");
+
+  const inputMax = screen.getByLabelText(/temperatura máxima/i);
+  await user.clear(inputMax);
+  await user.type(inputMax, "30");
+
+  const inputMin = screen.getByLabelText(/temperatura mínima/i);
+  await user.clear(inputMin);
+  await user.type(inputMin, "15");
+
+  await user.type(screen.getByLabelText(/precipitação/i), "10");
+  await user.type(screen.getByLabelText(/umidade/i), "60");
+  await user.type(screen.getByLabelText(/velocidade do vento/i), "12");
+
+  const botaoSalvar = screen.getByRole("button", { name: /salvar/i });
+  await user.click(botaoSalvar);
+
+  await waitFor(() => {
+    expect(toast.error).toHaveBeenCalledWith("Erro ao salvar os dados");
+  });
+  expect(consoleSpy).toHaveBeenCalled();
+  consoleSpy.mockRestore();
 });
