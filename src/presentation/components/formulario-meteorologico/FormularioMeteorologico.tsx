@@ -4,13 +4,14 @@ import {
   type FieldErrors,
   type UseFormRegister,
 } from "react-hook-form";
-import type { DadosMeteorologicos } from "../../pages/cadastrar/CadastrarPage";
+import type { DadosMeteorologicosForm } from "../../pages/cadastrar/CadastrarPage";
 import type { SubmitEventHandler } from "react";
 import { FormStyled } from "./FormularioMeteorologico.styles";
 import { NumericFormat } from "react-number-format";
 import { TempoLabels, TempoValues } from "../../../types/tempo-enum";
+import { useNavigate } from "react-router";
 
-function FormularioMeterologico({
+function FormularioMeteorologico({
   onSubmit,
   errors,
   register,
@@ -18,11 +19,13 @@ function FormularioMeterologico({
   isSubmitting,
 }: {
   onSubmit: SubmitEventHandler<HTMLFormElement>;
-  errors: FieldErrors<DadosMeteorologicos>;
-  register: UseFormRegister<DadosMeteorologicos>;
-  control: Control<DadosMeteorologicos, any, any>;
+  errors: FieldErrors<DadosMeteorologicosForm>;
+  register: UseFormRegister<DadosMeteorologicosForm>;
+  control: Control<DadosMeteorologicosForm>;
   isSubmitting: boolean;
 }) {
+  const navigate = useNavigate();
+
   const tempoOptions = Object.values(TempoValues).map((valor) => (
     <option key={valor} value={valor}>
       {TempoLabels[valor]}
@@ -182,7 +185,13 @@ function FormularioMeterologico({
         </label>
       </fieldset>
       <div className="actions">
-        <button type="button" className="cancelar">Cancelar</button>
+        <button
+          type="button"
+          className="cancelar"
+          onClick={() => navigate("/")}
+        >
+          Cancelar
+        </button>
         <button type="submit" disabled={isSubmitting}>
           {isSubmitting ? "Enviando..." : "Salvar"}
         </button>
@@ -191,4 +200,4 @@ function FormularioMeterologico({
   );
 }
 
-export default FormularioMeterologico;
+export default FormularioMeteorologico;
