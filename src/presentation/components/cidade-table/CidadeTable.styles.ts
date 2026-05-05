@@ -6,7 +6,8 @@ export const TableResponsiveStyled = styled.div`
 
 export const CidadeTableStyled = styled.table`
   width: 100%;
-  border-collapse: collapse;
+  border-collapse: separate;
+  border-spacing: 0 0.875rem;
 
   & > thead > tr > th {
     font-size: 1.5rem;
