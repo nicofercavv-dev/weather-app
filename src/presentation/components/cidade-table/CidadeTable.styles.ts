@@ -50,6 +50,7 @@ export const CidadeTableStyled = styled.table`
     border-bottom-left-radius: 0.9375rem;
     text-align: left;
     padding-left: 2rem;
+    padding-right: 0;
   }
 
   & > tbody > tr > td:last-child {
@@ -57,5 +58,15 @@ export const CidadeTableStyled = styled.table`
     border-bottom-right-radius: 0.9375rem;
     text-align: right;
     padding-right: 5.625rem;
+    padding-left: 0;
+  }
+
+  & > tbody > tr > td:nth-child(2) {
+    padding-left: 0;
+    padding-right: 0;
   }
 `;
+
+export const ImageStyled = styled.img`
+  width: auto;
+`
