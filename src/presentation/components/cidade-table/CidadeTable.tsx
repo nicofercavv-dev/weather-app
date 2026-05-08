@@ -1,6 +1,12 @@
 import React from "react";
 import type { DadosMeteorologicos } from "../../../domain/models/dados-meteorologicos";
-import { CidadeTableStyled, ImageStyled, TableResponsiveStyled } from "./CidadeTable.styles";
+import {
+  CidadeTableStyled,
+  ImageStyled,
+  TableResponsiveStyled,
+} from "./CidadeTable.styles";
+import imgEdit from "../../../assets/edit-icon.png";
+import imgDelete from "../../../assets/delete-icon.png";
 
 export interface CidadeTableProps {
   cidades: DadosMeteorologicos[];
@@ -37,14 +43,14 @@ export const CidadeTable = React.memo(
                     className="btn-action btn-edit"
                     aria-label={`Editar ${item.cidade}`}
                   >
-                    <ImageStyled src={imgSearch} />
+                    <ImageStyled src={imgEdit} />
                   </button>
                   <button
                     onClick={() => onDelete(item.id)}
                     className="btn-action btn-delete"
                     aria-label={`Excluir ${item.cidade}`}
                   >
-                    🗑️
+                    <ImageStyled src={imgDelete} />
                   </button>
                 </td>
               </tr>

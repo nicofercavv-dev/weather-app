@@ -1,4 +1,5 @@
 import React from "react";
+import { PaginationStyled } from "./Pagination.styles";
 
 export interface PaginationProps {
   currentPage: number;
@@ -8,24 +9,22 @@ export interface PaginationProps {
 
 export const Pagination = React.memo(
   ({ currentPage, totalPages, onPageChange }: PaginationProps) => (
-    <div className="pagination-container">
+    <PaginationStyled>
       <button
         onClick={() => onPageChange(currentPage - 1)}
         disabled={currentPage <= 0}
-        className="pagination-btn"
       >
         &lt;
       </button>
-      <span className="pagination-info">
+      <span>
         Página {currentPage + 1} de {totalPages}
       </span>
       <button
         onClick={() => onPageChange(currentPage + 1)}
         disabled={currentPage >= totalPages - 1}
-        className="pagination-btn"
       >
         &gt;
       </button>
-    </div>
+    </PaginationStyled>
   ),
 );

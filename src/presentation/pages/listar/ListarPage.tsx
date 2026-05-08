@@ -80,8 +80,7 @@ function ListarPage() {
     <div>
       <H1Styled>Lista de Cidades</H1Styled>
       <SearchBar
-        value={searchTerm}
-        onChange={handleSearchChange}
+        onClick={handleSearchChange}
         isPending={isPending}
       />
       <CidadeTable

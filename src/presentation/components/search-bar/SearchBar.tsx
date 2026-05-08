@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useRef } from "react";
 import {
   ImageStyled,
   InputStyled,
@@ -10,28 +10,33 @@ import {
 import imgSearch from "../../../assets/search-icon.png";
 
 export interface SearchBarProps {
-  value: string;
-  onChange: (value: string) => void;
+  onClick: (value: string) => void;
   isPending: boolean;
 }
 
 export const SearchBar = React.memo(
-  ({ value, onChange, isPending }: SearchBarProps) => (
-    <SearchContainerStyled>
-      <LabelStyled htmlFor="search-cidade">Cidade</LabelStyled>
-      <SearchInputWrapperStyled>
-        <InputStyled
-          id="search-cidade"
-          type="text"
-          value={value}
-          onChange={(e) => onChange(e.target.value)}
-          placeholder="Pesquisar cidade"
-          disabled={isPending}
-        />
-        <SearchButtonStyled aria-hidden="true">
-          <ImageStyled src={imgSearch} />
-        </SearchButtonStyled>
-      </SearchInputWrapperStyled>
-    </SearchContainerStyled>
-  ),
+  ({ onClick, isPending }: SearchBarProps) => {
+    const inputRef = useRef<HTMLInputElement>(null);
+
+    return (
+      <SearchContainerStyled>
+        <LabelStyled htmlFor="search-cidade">Cidade</LabelStyled>
+        <SearchInputWrapperStyled>
+          <InputStyled
+            id="search-cidade"
+            type="text"
+            placeholder="Pesquisar cidade"
+            disabled={isPending}
+            ref={inputRef}
+          />
+          <SearchButtonStyled
+            aria-hidden="true"
+            onClick={() => onClick(inputRef.current?.value || "")}
+          >
+            <ImageStyled src={imgSearch} />
+          </SearchButtonStyled>
+        </SearchInputWrapperStyled>
+      </SearchContainerStyled>
+    );
+  },
 );

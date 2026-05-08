@@ -2,6 +2,7 @@ import styled from "styled-components";
 
 export const TableResponsiveStyled = styled.div`
   width: 100%;
+  height: 37.8125rem;
 `;
 
 export const CidadeTableStyled = styled.table`
@@ -64,6 +65,15 @@ export const CidadeTableStyled = styled.table`
   & > tbody > tr > td:nth-child(2) {
     padding-left: 0;
     padding-right: 0;
+  }
+
+  & > tbody > tr > td > button {
+    padding-left: 0;
+    padding-right: 0;
+    border: none;
+    background: none;
+    margin-left: 1.5625rem;
+    cursor: pointer;
   }
 `;
 
