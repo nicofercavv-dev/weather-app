@@ -1,5 +1,4 @@
 export enum TempoValues {
-  SOL = "SOL",
   LIMPO = "LIMPO",
   CHUVA = "CHUVA",
   TEMPESTADE = "TEMPESTADE",
@@ -9,7 +8,6 @@ export enum TempoValues {
 }
 
 export const TempoLabels: Record<TempoValues, string> = {
-  [TempoValues.SOL]: "Sol",
   [TempoValues.LIMPO]: "Limpo",
   [TempoValues.CHUVA]: "Chuva",
   [TempoValues.TEMPESTADE]: "Tempestade",

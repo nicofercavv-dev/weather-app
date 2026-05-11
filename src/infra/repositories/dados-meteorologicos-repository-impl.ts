@@ -21,4 +21,12 @@ export class DadosMeteorologicosRepositoryImpl implements DadosMeteorologicosRep
 
     return response.data;
   }
+
+  async listar7Dias(cidade: string): Promise<DadosMeteorologicos[]> {
+    const response = await httpClient.get("/previsao", {
+      params: { cidade },
+    });
+
+    return response.data;
+  }
 }
