@@ -1,3 +1,5 @@
+import { WeatherInfoContainer } from "./WeatherInfo.styles";
+
 function WeatherInfo({
   src,
   title1,
@@ -9,11 +11,11 @@ function WeatherInfo({
 }) {
   
   return (
-    <div>
+    <WeatherInfoContainer>
       <img src={src} alt="Ícone de informação" />
       <p>{title1}</p>
       <p>{title2}</p>
-    </div>
+    </WeatherInfoContainer>
   );
 }
 

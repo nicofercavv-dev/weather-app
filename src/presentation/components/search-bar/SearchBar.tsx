@@ -30,8 +30,8 @@ export const SearchBar = React.memo(
             ref={inputRef}
           />
           <SearchButtonStyled
-            aria-hidden="true"
             onClick={() => onClick(inputRef.current?.value || "")}
+            aria-label="Pesquisar"
           >
             <ImageStyled src={imgSearch} />
           </SearchButtonStyled>

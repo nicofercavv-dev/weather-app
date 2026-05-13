@@ -1,11 +1,22 @@
-import { Separator, TempMax, TempMin, WeatherContainer } from "./TemperaturesDisplay.styles";
+import {
+  Separator,
+  TempMax,
+  TempMin,
+  WeatherContainer,
+} from "./TemperaturesDisplay.styles";
 
-export const TemperaturesDisplay = () => {
+export const TemperaturesDisplay = ({
+  tempMin,
+  tempMax,
+}: {
+  tempMin: number;
+  tempMax: number;
+}) => {
   return (
     <WeatherContainer>
-      <TempMax>23</TempMax>
+      <TempMax>{tempMax}</TempMax>
       <Separator>/</Separator>
-      <TempMin>17</TempMin>
+      <TempMin>{tempMin}</TempMin>
     </WeatherContainer>
   );
 };
