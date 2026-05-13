@@ -69,7 +69,7 @@ test("deve disparar toast de sucesso quando o formulário for válido", async ()
     target: { value: "2026-04-08" },
   });
 
-  await user.selectOptions(screen.getByLabelText(/tempo dia/i), "SOL");
+  await user.selectOptions(screen.getByLabelText(/tempo dia/i), "LIMPO");
   await user.selectOptions(screen.getByLabelText(/tempo noite/i), "NUBLADO");
 
   const inputMax = screen.getByLabelText(/temperatura máxima/i);
@@ -95,7 +95,7 @@ test("deve disparar toast de sucesso quando o formulário for válido", async ()
 });
 
 test("deve disparar toast de erro quando a chamada ao usecase falhar", async () => {
-  const consoleSpy = vi.spyOn(console, 'error').mockImplementation(() => {});
+  const consoleSpy = vi.spyOn(console, "error").mockImplementation(() => {});
   const useCaseInstance = new RegistrarDadosMeteorologicos({} as any);
   vi.mocked(useCaseInstance.execute).mockRejectedValue(
     new Error("Erro interno do servidor"),
@@ -110,7 +110,7 @@ test("deve disparar toast de erro quando a chamada ao usecase falhar", async () 
     target: { value: "2026-04-08" },
   });
 
-  await user.selectOptions(screen.getByLabelText(/tempo dia/i), "SOL");
+  await user.selectOptions(screen.getByLabelText(/tempo dia/i), "LIMPO");
   await user.selectOptions(screen.getByLabelText(/tempo noite/i), "NUBLADO");
 
   const inputMax = screen.getByLabelText(/temperatura máxima/i);
