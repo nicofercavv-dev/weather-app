@@ -29,4 +29,8 @@ export class DadosMeteorologicosRepositoryImpl implements DadosMeteorologicosRep
 
     return response.data;
   }
+
+  async deletar(id: number): Promise<void> {
+    await httpClient.delete(`/dados-meteorologicos/${id}`);
+  }
 }

@@ -6,7 +6,7 @@ import userEvent from "@testing-library/user-event";
 import { toast } from "react-toastify";
 import { ThemeProvider } from "styled-components";
 import { theme } from "../../styles/theme";
-import { RegistrarDadosMeteorologicos } from "../../../data/usecase/registrar-dados-meteorologicos";
+import { RegistrarDadosMeteorologicos } from "../../../data/usecase/registrar-dados-meteorologicos.usecase";
 
 vi.mock("react-toastify", () => ({
   toast: {

@@ -8,7 +8,7 @@ import {
 import { DadosMeteorologicosRepositoryImpl } from "../../../infra/repositories/dados-meteorologicos-repository-impl";
 import { SearchBar } from "../../components/search-bar/SearchBar";
 import { H1Styled, SearchBarSectionStyled } from "./HomePage.styles";
-import { ListarDadosMeteorologicos7Dias } from "../../../data/usecase/listar-dados-meteorologicos-7-dias";
+import { ListarDadosMeteorologicos7Dias } from "../../../data/usecase/listar-dados-meteorologicos-7-dias.usecase";
 import type { DadosMeteorologicos } from "../../../domain/models/dados-meteorologicos";
 import PrevisaoDiaAtual from "../../components/previsao-dia-atual/PrevisaoDiaAtual";
 import { PrevisaoProximosDias } from "../../components/previsao-proximos-dias/PrevisaoProximosDias";

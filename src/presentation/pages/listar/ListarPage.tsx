@@ -10,20 +10,30 @@ import type { DadosMeteorologicos } from "../../../domain/models/dados-meteorolo
 import { SearchBar } from "../../components/search-bar/SearchBar";
 import { CidadeTable } from "../../components/cidade-table/CidadeTable";
 import { Pagination } from "../../components/pagination/Pagination";
-import { ListarDadosMeteorologicos } from "../../../data/usecase/listar-dados-meteorologicos";
+import { ListarDadosMeteorologicos } from "../../../data/usecase/listar-dados-meteorologicos.usecase";
 import { DadosMeteorologicosRepositoryImpl } from "../../../infra/repositories/dados-meteorologicos-repository-impl";
+import { DeletarDadoMeteorologico } from "../../../data/usecase/deletar-dado-meteorologico.usecase";
+import { toast } from "react-toastify";
+import { useNavigate } from "react-router";
 
 function ListarPage() {
-  const listarUseCase = useMemo(() => {
-    const repository = new DadosMeteorologicosRepositoryImpl();
-    return new ListarDadosMeteorologicos(repository);
-  }, []);
+  const repository = useMemo(() => new DadosMeteorologicosRepositoryImpl(), []);
+
+  const listarUseCase = useMemo(
+    () => new ListarDadosMeteorologicos(repository),
+    [repository],
+  );
+  const deleteUseCase = useMemo(
+    () => new DeletarDadoMeteorologico(repository),
+    [repository],
+  );
 
   const [cidades, setCidades] = useState<DadosMeteorologicos[]>([]);
   const [searchTerm, setSearchTerm] = useState("");
   const [page, setPage] = useState(0);
   const [totalPages, setTotalPages] = useState(1);
   const [isPending, startTransition] = useTransition();
+  const navigate = useNavigate();
 
   const fetchCidades = useCallback(
     async (termo: string, pagina: number) => {
@@ -60,6 +70,23 @@ function ListarPage() {
     [searchTerm, fetchCidades],
   );
 
+  const handleDelete = async (id: number) => {
+    try {
+      await deleteUseCase.execute(id);
+      toast.success("Dado deletado com sucesso");
+      startTransition(() => {
+        fetchCidades(searchTerm, page);
+      });
+    } catch (error) {
+      toast.error("Erro ao deletar os dado");
+      console.error(error);
+    }
+  };
+
+  const handleEditar = async (id: number) => {
+    navigate(`/editar/${id}`);
+  };
+
   useEffect(() => {
     let active = true;
 
@@ -79,14 +106,11 @@ function ListarPage() {
   return (
     <div>
       <H1Styled>Lista de Cidades</H1Styled>
-      <SearchBar
-        onClick={handleSearchChange}
-        isPending={isPending}
-      />
+      <SearchBar onClick={handleSearchChange} isPending={isPending} />
       <CidadeTable
         cidades={cidades}
-        onEdit={(id) => console.log("Editar ", id)}
-        onDelete={(id) => console.log("Excluir ", id)}
+        onEdit={(id) => handleEditar(id)}
+        onDelete={(id) => handleDelete(id)}
       />
       <Pagination
         currentPage={page}

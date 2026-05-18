@@ -3,6 +3,7 @@ import App from "./App.tsx";
 import HomePage from "./presentation/pages/home/HomePage.tsx";
 import CadastrarPage from "./presentation/pages/cadastrar/CadastrarPage.tsx";
 import ListarPage from "./presentation/pages/listar/ListarPage.tsx";
+import EditarPage from "./presentation/pages/editar/EditarPage.tsx";
 
 export const router = createBrowserRouter([
   {
@@ -20,6 +21,10 @@ export const router = createBrowserRouter([
       {
         path: "listar",
         element: <ListarPage />,
+      },
+      {
+        path: "editar/:id",
+        element: <EditarPage />,
       },
     ],
   },
