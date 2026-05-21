@@ -4,23 +4,43 @@ import { ThemeProvider } from "styled-components";
 import { beforeEach, describe, expect, it, test, vi } from "vitest";
 import { theme } from "../../styles/theme";
 import ListarPage from "./ListarPage";
+import { toast } from "react-toastify";
 
-const mockExecute = vi.fn();
+vi.mock("react-toastify", () => ({
+  toast: {
+    error: vi.fn(),
+    success: vi.fn(),
+  },
+}));
 
-vi.mock("../../../data/usecase/listar-dados-meteorologicos", () => {
+const mockNavigate = vi.fn();
+
+vi.mock("react-router", async (importOriginal) => {
+  const actual = await importOriginal<typeof import("react-router")>();
   return {
-    ListarDadosMeteorologicos: vi.fn().mockImplementation(function () {
-      return { execute: mockExecute };
-    }),
+    ...actual,
+    useNavigate: () => mockNavigate,
   };
 });
 
-vi.mock(
-  "../../../infra/repositories/dados-meteorologicos-repository-impl",
-  () => ({
-    DadosMeteorologicosRepositoryImpl: vi.fn(),
-  }),
-);
+const mockExecute = vi.fn();
+const mockExecuteDelete = vi.fn();
+
+vi.mock("../../../data/usecase/listar-dados-meteorologicos.usecase", () => {
+  return {
+    ListarDadosMeteorologicos: class {
+      execute = mockExecute;
+    },
+  };
+});
+
+vi.mock("../../../data/usecase/deletar-dado-meteorologico.usecase", () => {
+  return {
+    DeletarDadoMeteorologico: class {
+      execute = mockExecuteDelete;
+    },
+  };
+});
 
 const renderPage = () =>
   render(
@@ -110,39 +130,107 @@ describe("ListarPage", () => {
   });
 
   it("deve voltar para a página anterior corretamente ao clicar no botão de voltar", async () => {
-  mockExecute.mockResolvedValueOnce({
-    content: [{ id: 1, cidade: "São Paulo", data: "2026-05-12" }],
-    totalPages: 2,
+    mockExecute.mockResolvedValueOnce({
+      content: [{ id: 1, cidade: "São Paulo", data: "2026-05-12" }],
+      totalPages: 2,
+    });
+
+    renderPage();
+
+    await screen.findByText("São Paulo");
+
+    mockExecute.mockResolvedValueOnce({
+      content: [{ id: 2, cidade: "Rio de Janeiro", data: "2026-05-13" }],
+      totalPages: 2,
+    });
+
+    const nextBtn = screen.getByRole("button", { name: ">" });
+    fireEvent.click(nextBtn);
+
+    await screen.findByText("Rio de Janeiro");
+
+    mockExecute.mockResolvedValueOnce({
+      content: [{ id: 1, cidade: "São Paulo", data: "2026-05-12" }],
+      totalPages: 2,
+    });
+
+    const prevBtn = screen.getByRole("button", { name: "<" });
+
+    expect(prevBtn).not.toBeDisabled();
+
+    fireEvent.click(prevBtn);
+
+    await waitFor(() => {
+      expect(mockExecute).toHaveBeenLastCalledWith("", 0);
+      expect(screen.getByText("São Paulo")).toBeInTheDocument();
+    });
   });
 
-  renderPage();
+  it("deve deletar dado ao clicar no botão de deletar", async () => {
+    mockExecute.mockResolvedValueOnce({
+      content: [{ id: 1, cidade: "São Paulo", data: "2026-05-12" }],
+      totalPages: 2,
+    });
 
-  await screen.findByText("São Paulo");
+    mockExecuteDelete.mockResolvedValueOnce(void 0);
 
-  mockExecute.mockResolvedValueOnce({
-    content: [{ id: 2, cidade: "Rio de Janeiro", data: "2026-05-13" }],
-    totalPages: 2,
+    mockExecute.mockResolvedValueOnce({
+      content: [],
+      totalPages: 1,
+    });
+
+    renderPage();
+
+    const botaoExcluir = await screen.findByRole("button", {
+      name: /Excluir São Paulo/,
+    });
+    fireEvent.click(botaoExcluir);
+
+    await waitFor(() => {
+      expect(mockExecuteDelete).toHaveBeenCalledWith(1);
+      expect(toast.success).toHaveBeenCalledWith("Dado deletado com sucesso");
+    });
   });
 
-  const nextBtn = screen.getByRole("button", { name: ">" });
-  fireEvent.click(nextBtn);
+  it("deve mostrar toast de erro caso chamada de usecase de delete dê erro", async () => {
+    const consoleSpy = vi.spyOn(console, "error").mockImplementation(() => {});
+    mockExecute.mockResolvedValueOnce({
+      content: [{ id: 1, cidade: "São Paulo", data: "2026-05-12" }],
+      totalPages: 2,
+    });
 
-  await screen.findByText("Rio de Janeiro");
+    mockExecuteDelete.mockRejectedValueOnce(
+      new Error("Erro interno do servidor"),
+    );
 
-  mockExecute.mockResolvedValueOnce({
-    content: [{ id: 1, cidade: "São Paulo", data: "2026-05-12" }],
-    totalPages: 2,
+    renderPage();
+
+    const botaoExcluir = await screen.findByRole("button", {
+      name: /Excluir São Paulo/,
+    });
+    fireEvent.click(botaoExcluir);
+
+    await waitFor(() => {
+      expect(mockExecuteDelete).toHaveBeenCalledWith(1);
+      expect(toast.error).toHaveBeenCalledWith("Erro ao deletar os dado");
+    });
+    expect(consoleSpy).toHaveBeenCalled();
+    consoleSpy.mockRestore();
   });
 
-  const prevBtn = screen.getByRole("button", { name: "<" });
-  
-  expect(prevBtn).not.toBeDisabled();
-  
-  fireEvent.click(prevBtn);
+  it("deve redirecionar para pagina de editar quando clicar no botão de editar", async () => {
+    mockExecute.mockResolvedValueOnce({
+      content: [{ id: 1, cidade: "São Paulo", data: "2026-05-12" }],
+      totalPages: 2,
+    });
 
-  await waitFor(() => {
-    expect(mockExecute).toHaveBeenLastCalledWith("", 0);
-    expect(screen.getByText("São Paulo")).toBeInTheDocument();
+    renderPage();
+
+    const botaoEditar = await screen.findByRole("button", {
+      name: /Editar São Paulo/,
+    });
+    fireEvent.click(botaoEditar);
+
+    expect(mockNavigate).toHaveBeenCalledWith("/editar/1");
   });
-});
 });

@@ -13,7 +13,7 @@ import {
   type DadosMeteorologicosForm,
 } from "../../../data/dtos/DadosMeteorologicos.dto";
 
-export default function CadastrarPage() {
+export default function EditarPage() {
   const repository = useMemo(() => new DadosMeteorologicosRepositoryImpl(), []);
 
   const buscarPorIdUseCase = useMemo(
@@ -57,11 +57,8 @@ export default function CadastrarPage() {
     async (id: number) => {
       try {
         const response = await buscarPorIdUseCase.execute(id);
-        // const [ano, mes, dia] = response.data.split("-");
-        // const data = new Date();
         setValue("cidade", response.cidade);
-        // setValue("data", dataResp.toISOString());
-        setValue("data", response.data);
+        setValue("data", response.dataRegistro);
         setValue("tempoDia", response.tempoDia);
         setValue("tempoNoite", response.tempoNoite);
         setValue("temperaturaMaxima", response.temperaturaMaxima);

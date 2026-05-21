@@ -4,12 +4,12 @@ import {
   type FieldErrors,
   type UseFormRegister,
 } from "react-hook-form";
-import type { DadosMeteorologicosForm } from "../../pages/cadastrar/CadastrarPage";
 import type { SubmitEventHandler } from "react";
 import { FormStyled } from "./FormularioMeteorologico.styles";
 import { NumericFormat } from "react-number-format";
 import { TempoLabels, TempoValues } from "../../../types/tempo-enum";
 import { useNavigate } from "react-router";
+import type { DadosMeteorologicosForm } from "../../../data/dtos/DadosMeteorologicos.dto";
 
 function FormularioMeteorologico({
   onSubmit,

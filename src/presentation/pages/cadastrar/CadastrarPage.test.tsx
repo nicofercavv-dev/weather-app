@@ -6,7 +6,6 @@ import userEvent from "@testing-library/user-event";
 import { toast } from "react-toastify";
 import { ThemeProvider } from "styled-components";
 import { theme } from "../../styles/theme";
-import { RegistrarDadosMeteorologicos } from "../../../data/usecase/registrar-dados-meteorologicos.usecase";
 
 vi.mock("react-toastify", () => ({
   toast: {
@@ -15,12 +14,12 @@ vi.mock("react-toastify", () => ({
   },
 }));
 
-vi.mock("../../../data/usecase/registrar-dados-meteorologicos", () => {
-  const execute = vi.fn();
+const mockExecute = vi.fn();
 
+vi.mock("../../../data/usecase/registrar-dados-meteorologicos.usecase", () => {
   return {
     RegistrarDadosMeteorologicos: class {
-      execute = execute;
+      execute = mockExecute;
     },
   };
 });
@@ -57,8 +56,7 @@ test("deve disparar toast de erro quando a validação falhar", async () => {
 });
 
 test("deve disparar toast de sucesso quando o formulário for válido", async () => {
-  const useCaseInstance = new RegistrarDadosMeteorologicos({} as any);
-  vi.mocked(useCaseInstance.execute).mockResolvedValue(undefined);
+  mockExecute.mockResolvedValueOnce(void 0);
 
   const user = userEvent.setup();
   renderPage();
@@ -96,10 +94,7 @@ test("deve disparar toast de sucesso quando o formulário for válido", async ()
 
 test("deve disparar toast de erro quando a chamada ao usecase falhar", async () => {
   const consoleSpy = vi.spyOn(console, "error").mockImplementation(() => {});
-  const useCaseInstance = new RegistrarDadosMeteorologicos({} as any);
-  vi.mocked(useCaseInstance.execute).mockRejectedValue(
-    new Error("Erro interno do servidor"),
-  );
+  mockExecute.mockRejectedValueOnce(new Error("Erro interno do servidor"));
 
   const user = userEvent.setup();
   renderPage();

@@ -23,6 +23,8 @@ export default function CadastrarPage() {
     resolver: zodResolver(DadosMeteorologicosSchema),
   });
 
+  console.log("Erros de validação atuais:", errors);
+
   const onSubmit = async (data: DadosMeteorologicosForm) => {
     try {
       await registrarUseCase.execute(data);

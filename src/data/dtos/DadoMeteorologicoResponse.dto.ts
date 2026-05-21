@@ -2,7 +2,7 @@ import type { TempoValues } from "../../types/tempo-enum";
 
 export interface DadoMeteorologicoResponse {
   cidade: string;
-  data: string;
+  dataRegistro: string;
   tempoDia: TempoValues;
   tempoNoite: TempoValues;
   temperaturaMaxima: number;
